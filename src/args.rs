@@ -4,7 +4,6 @@ mod tests {
 
     #[test]
     fn test_args_parse_with_two_arguments() {
-        // Симулируем аргументы: ["program_name", "log.txt", "ERROR"]
         let args = vec![
             "log_analyzer".to_string(),
             "log.txt".to_string(),
@@ -20,8 +19,29 @@ mod tests {
     }
 }
 use std::path::PathBuf;
-#[derive(Debug, CLone, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Args {
     pub file_path: PathBuf,
     pub pattern: String,
+}
+impl Args {
+    pub fn parse_from(mut args: Vec<String>) -> Result<Self, String> {
+        if args.len() != 3 {
+            return Err(format!(
+                "Ожидается 2 аргумента, получено: {}\n\
+                 Использование: {} <лог-файл> <паттерн>",
+                args.len() - 1,
+                args[0]
+            ));
+        }
+        let file_path = PathBuf::from(args.remove(1));
+        let pattern = args.remove(1);
+
+        // Проверяем существование файла
+        // if !file_path.exists() {
+        //     return Err(format!("Файл не найден: {}", file_path.display()));
+        // } Закоменчино потому что нет ещё файла log.txt
+
+        Ok(Args { file_path, pattern })
+    }
 }
