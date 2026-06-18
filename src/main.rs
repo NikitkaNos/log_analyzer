@@ -11,6 +11,6 @@ fn main() {
         Err(e) => {
             eprintln!("Ошибка : {}", e);
             std::process::exit(1);
-        } //test for git
+        } //test for git22
     }
 }
